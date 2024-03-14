@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Download latest ngrok binary
       run: |
-        wget -qO ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+        curl -s https://ngrok.com/download | grep -o -m 1 'https://bin.equinox.io/.*/ngrok-stable-linux-amd64.zip' | wget -i - -O ngrok.zip
         unzip -o ngrok.zip
     - name: Move ngrok binary to /usr/local/bin
       run: |
