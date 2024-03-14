@@ -11,16 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Update and upgrade packages
+    - name: Update sources.list
       run: |
-        sudo apt update && sudo apt upgrade -y
+        sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
+        sudo apt update
 
     - name: Install Ubuntu Desktop
       run: sudo apt install ubuntu-desktop -y
 
     - name: Install XRDP and utilities
       run: |
-        sudo apt update && sudo apt install xrdp iproute2 -y
+        sudo apt install xrdp iproute2 -y
 
     - name: Start XRDP service
       run: sudo service xrdp start
