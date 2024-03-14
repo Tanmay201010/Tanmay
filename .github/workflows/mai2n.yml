@@ -9,12 +9,12 @@ jobs:
     steps:
     - name: Download ngrok
       run: |
-        wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-        unzip ngrok-stable-linux-amd64.zip
+        wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
+        tar -xzf ngrok-v3-stable-linux-arm64.tgz
         sudo mv ngrok /usr/local/bin/
     - name: Update ngrok
       run: |
-         /usr/local/bin/ngrok update
+        /usr/local/bin/ngrok update
     - name: Auth
       run: /usr/local/bin/ngrok authtoken $NGROK_AUTH_TOKEN
       env:
