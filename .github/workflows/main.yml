@@ -7,14 +7,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Download ngrok
+    - name: Download latest ngrok binary
       run: |
-        wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
-        tar -xzf ngrok-v3-stable-linux-arm64.tgz
+        wget -qO ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+        unzip -o ngrok.zip
+    - name: Move ngrok binary to /usr/local/bin
+      run: |
         sudo mv ngrok /usr/local/bin/
-    - name: Update ngrok
+        sudo chmod +x /usr/local/bin/ngrok
+    - name: Verify ngrok version
       run: |
-        /usr/local/bin/ngrok update
+        ngrok version
     - name: Auth
       run: /usr/local/bin/ngrok authtoken $NGROK_AUTH_TOKEN
       env:
