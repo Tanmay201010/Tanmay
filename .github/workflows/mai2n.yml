@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: kalilinux-latest
 
     steps:
     - name: Update sources.list
@@ -16,8 +16,8 @@ jobs:
         sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
         sudo apt update
 
-    - name: Install Ubuntu Desktop
-      run: sudo apt install ubuntu-desktop -y
+    - name: Install Kali Linux XFCE Desktop
+      run: sudo apt install kali-desktop-xfce -y
 
     - name: Install XRDP and utilities
       run: |
@@ -25,9 +25,6 @@ jobs:
 
     - name: Start XRDP service
       run: sudo service xrdp start
-
-    - name: Enable Remote Desktop Rule
-      run: sudo ufw allow 3389/tcp
 
     - name: Show IP address
       run: |
