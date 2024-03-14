@@ -17,15 +17,15 @@ jobs:
           # Run ip add
           # Show the text which shows after ip add
 
-      - name: Download latest ngrok binary
+      - name: Update ngrok
         run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
           wget -qO ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
           unzip -o ngrok.zip
-
-      - name: Move ngrok binary to /usr/local/bin
-        run: |
           sudo mv ngrok /usr/local/bin/
           sudo chmod +x /usr/local/bin/ngrok
+          ngrok update
 
       - name: Verify ngrok version
         run: |
