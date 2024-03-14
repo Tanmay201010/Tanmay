@@ -25,4 +25,7 @@ jobs:
       run: |
         ip addr show
 
+    - name: Keep terminal session active for 1 hour
+      run: sleep 3600
+
     # Add any additional steps here as needed
