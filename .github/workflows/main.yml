@@ -1,25 +1,43 @@
-#!/bin/bash
+name: CI
 
-# Install Kali Linux
-# Assuming installation steps here
+on: [push, workflow_dispatch]
 
-# Open terminal
-gnome-terminal &
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Kali Linux
+        run: |
+          # Install Kali Linux (this is a placeholder, you'll need to replace it with your setup process)
+          # Open terminal
+          # Run sudo apt update && sudo apt upgrade -y
+          # Run sudo apt install kali-desktop-xfce -y
+          # Run sudo apt install xrdp -y
+          # sudo service xrdp start
+          # Run ip add
+          # Show the text which shows after ip add
 
-# Wait for terminal to open
-sleep 5
+      - name: Download latest ngrok binary
+        run: |
+          wget -qO ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+          unzip -o ngrok.zip
 
-# Run commands in terminal
-gnome-terminal --tab -- bash -c '
-echo "Running updates..."
-sudo apt update && sudo apt upgrade -y;
-echo "Installing XFCE desktop environment..."
-sudo apt install kali-desktop-xfce -y;
-echo "Installing XRDP..."
-sudo apt install xrdp -y;
-echo "Starting XRDP service..."
-sudo service xrdp start;
-echo "Displaying IP address...";
-ip add | grep inet; # Show IP address
-bash'
+      - name: Move ngrok binary to /usr/local/bin
+        run: |
+          sudo mv ngrok /usr/local/bin/
+          sudo chmod +x /usr/local/bin/ngrok
 
+      - name: Verify ngrok version
+        run: |
+          ngrok version
+
+      - name: Auth
+        run: /usr/local/bin/ngrok authtoken $NGROK_AUTH_TOKEN
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+
+      - name: Create Tunnel
+        run: |
+          /usr/local/bin/ngrok tcp 3389 &
+          sleep 10
+          curl -s http://localhost:4040/api/tunnels | jq '.tunnels[0].public_url'
