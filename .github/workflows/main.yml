@@ -3,20 +3,17 @@ name: CI
 on: [push, workflow_dispatch]
 
 jobs:
+
   build:
-    runs-on: ubuntu-latest  # Using Ubuntu runner for Kali Linux
-
+    runs-on: ubuntu-latest
     steps:
-    - name: Download
-      run: wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -O ngrok.zip
-
-    - name: Extract
-      run: unzip ngrok.zip
-
+    - name: Download ngrok
+      run: |
+        wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+        unzip ngrok-stable-linux-amd64.zip
     - name: Auth
-      run: ./ngrok/ngrok authtoken $NGROK_AUTH_TOKEN
+      run: ./ngrok authtoken $NGROK_AUTH_TOKEN
       env:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-
     - name: Create Tunnel
-      run: ./ngrok/ngrok tcp 3389
+      run: ./ngrok tcp 3389
