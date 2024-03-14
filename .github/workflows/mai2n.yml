@@ -14,7 +14,7 @@ jobs:
         sudo mv ngrok /usr/local/bin/
     - name: Update ngrok
       run: |
-        ngrok update
+         /usr/local/bin/ngrok update
     - name: Auth
       run: /usr/local/bin/ngrok authtoken $NGROK_AUTH_TOKEN
       env:
