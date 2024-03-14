@@ -16,19 +16,20 @@ jobs:
         sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
         sudo apt update
 
-    
-    - name: Install XRDP and utilities
+    - name: Install XRDP
       run: |
-        sudo apt install xrdp  -y
+        sudo apt install xrdp -y
 
     - name: Start XRDP service
-      run: sudo service xrdp start
+      run: sudo systemctl enable --now xrdp
+
+    - name: Allow RDP through firewall
+      run: sudo ufw allow from any to any port 3389 proto tcp
 
     - name: Show IP address
       run: |
         ip add
-
-    - name: Keep terminal session active for 1 hour
+    - name: Delay for 1 hour
       run: sleep 3600
 
     # Add any additional steps here as needed
