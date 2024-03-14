@@ -1,43 +1,32 @@
-name: CI
+name: Cl
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Install Kali Linux
-        run: |
-          # Install Kali Linux (this is a placeholder, you'll need to replace it with your setup process)
-          # Open terminal
-          # Run sudo apt update && sudo apt upgrade -y
-          # Run sudo apt install kali-desktop-xfce -y
-          # Run sudo apt install xrdp -y
-          # sudo service xrdp start
-          # Run ip add
-          # Show the text which shows after ip add
+    - name: Install XRDP and utilities
+      run: |
+        sudo apt update && sudo apt install xrdp net-tools -y
 
-      - name: Update ngrok
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip
-          wget -qO ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-          unzip -o ngrok.zip
-          sudo mv ngrok /usr/local/bin/
-          sudo chmod +x /usr/local/bin/ngrok
-          ngrok update
+    - name: Start XRDP service
+      run: sudo service xrdp start
 
-      - name: Verify ngrok version
-        run: |
-          ngrok version
+    - name: Enable Remote Desktop Rule
+      run: sudo ufw allow 3389/tcp
 
-      - name: Auth
-        run: /usr/local/bin/ngrok authtoken $NGROK_AUTH_TOKEN
-        env:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+    - name: Show IP address
+      run: |
+        hostname -I
 
-      - name: Create Tunnel
-        run: |
-          /usr/local/bin/ngrok tcp 3389 &
-          sleep 10
-          curl -s http://localhost:4040/api/tunnels | jq '.tunnels[0].public_url'
+    - name: Show network configuration
+      run: |
+        ifconfig
+
+    # Add any additional steps here as nee
