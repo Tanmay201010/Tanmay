@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Install XRDP and utilities
       run: |
-        sudo apt update && sudo apt install xrdp net-tools -y
+        sudo apt update && sudo apt install xrdp iproute2 -y
 
     - name: Start XRDP service
       run: sudo service xrdp start
@@ -23,10 +23,6 @@ jobs:
 
     - name: Show IP address
       run: |
-        hostname -I
+        ip addr show
 
-    - name: Show network configuration
-      run: |
-        ifconfig
-
-    # Add any additional steps here as nee
+    # Add any additional steps here as needed
