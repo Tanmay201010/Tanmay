@@ -1,29 +1,25 @@
-name: CI
+#!/bin/bash
 
-on: [push, workflow_dispatch]
+# Install Kali Linux
+# Assuming installation steps here
 
-jobs:
+# Open terminal
+gnome-terminal &
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download latest ngrok binary
-      run: |
-        curl -s https://ngrok.com/download | grep -o -m 1 'https://bin.equinox.io/.*/ngrok-stable-linux-amd64.zip' | wget -i - -O ngrok.zip
-        unzip -o ngrok.zip
-    - name: Move ngrok binary to /usr/local/bin
-      run: |
-        sudo mv ngrok /usr/local/bin/
-        sudo chmod +x /usr/local/bin/ngrok
-    - name: Verify ngrok version
-      run: |
-        ngrok version
-    - name: Auth
-      run: /usr/local/bin/ngrok authtoken $NGROK_AUTH_TOKEN
-      env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-    - name: Create Tunnel
-      run: |
-        /usr/local/bin/ngrok tcp 3389 &
-        sleep 10
-        curl -s http://localhost:4040/api/tunnels | jq '.tunnels[0].public_url'
+# Wait for terminal to open
+sleep 5
+
+# Run commands in terminal
+gnome-terminal --tab -- bash -c '
+echo "Running updates..."
+sudo apt update && sudo apt upgrade -y;
+echo "Installing XFCE desktop environment..."
+sudo apt install kali-desktop-xfce -y;
+echo "Installing XRDP..."
+sudo apt install xrdp -y;
+echo "Starting XRDP service..."
+sudo service xrdp start;
+echo "Displaying IP address...";
+ip add | grep inet; # Show IP address
+bash'
+
