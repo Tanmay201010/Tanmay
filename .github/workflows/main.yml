@@ -21,10 +21,13 @@ jobs:
         echo "Found ngrok binary at: $NGROK_BINARY"
         chmod +x $NGROK_BINARY
 
-    - name: Auth
-      run: $NGROK_BINARY authtoken $NGROK_AUTH_TOKEN
-      env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+   - name: Auth
+  run: |
+    $NGROK_BINARY authtoken $NGROK_AUTH_TOKEN
+  env:
+    NGROK_BINARY: ${{ env.NGROK_BINARY }}
+    NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+
 
     - name: Enable TS
       run: sudo sed -i 's/.*#Port 22/Port 22/' /etc/ssh/sshd_config && sudo service ssh restart
