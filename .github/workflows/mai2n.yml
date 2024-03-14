@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: kalilinux-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Update sources.list
@@ -16,19 +16,17 @@ jobs:
         sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
         sudo apt update
 
-    - name: Install Kali Linux XFCE Desktop
-      run: sudo apt install kali-desktop-xfce -y
-
+    
     - name: Install XRDP and utilities
       run: |
-        sudo apt install xrdp iproute2 -y
+        sudo apt install xrdp  -y
 
     - name: Start XRDP service
       run: sudo service xrdp start
 
     - name: Show IP address
       run: |
-        ip addr show
+        ip add
 
     - name: Keep terminal session active for 1 hour
       run: sleep 3600
