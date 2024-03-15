@@ -23,10 +23,10 @@ jobs:
       run: sudo apt-get install ./kasmvncserver_*.deb
 
     - name: Add user to ssl-cert group
-      run: sudo addgroup $USER ssl-cert
+      run: sudo addgroup $USER ssl-cert -user=admin -password=password@66
 
     - name: Start VNC server
-      run: vncserver -user=admin -password=password@66
+      run: vncserver 
 
     - name: Tail VNC logs
       run: tail -f ~/.vnc/*.log
