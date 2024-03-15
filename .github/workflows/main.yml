@@ -20,11 +20,9 @@ jobs:
     - name: Extract Kasm release archive
       run: tar -xf kasm_release_1.15.0.06fdc8.tar.gz
 
-    - name: Run Kasm installation script
-      run: ls
-    - name: Run Kasm installation script
-      run: cd kasm_release
-    - name: Run Kasm installation script
-      run: ls/kasm_release
+    - name: Run Kasm installation script with 'yes' response
+      run: |
+        yes | sudo bash kasm_release/install.sh
+
     - name: Delay for 1 hour
       run: sleep 3600
