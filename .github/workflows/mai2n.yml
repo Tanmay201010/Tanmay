@@ -25,9 +25,9 @@ jobs:
     - name: Add user to ssl-cert group
       run: sudo addgroup $USER ssl-cert
 
-    - name: Start VNC server session
+    - name: Start VNC server session and select option 1
       run: |
-        vncserver
+        echo "1" | vncserver
         echo "In order to control your desktop, you need a KasmVNC user with write permissions."
         echo "Selecting option 1: Create a new user with write access."
         echo "my_username" | vncpasswd -u -w -r
