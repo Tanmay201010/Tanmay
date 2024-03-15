@@ -12,9 +12,11 @@ jobs:
 
     steps:
     - name: Update sources.list
-      run: |
-        sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
-        sudo apt update
+  run: |
+    set -x
+    sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
+    sudo apt update
+
 
     - name: Install TightVNC
       run: |
