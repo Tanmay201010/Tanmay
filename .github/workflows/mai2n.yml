@@ -25,6 +25,24 @@ jobs:
     - name: Add user to ssl-cert group
       run: sudo addgroup $USER ssl-cert
 
+    - name: Start VNC server session
+      run: vncserver
+
+    - name: Start VNC session with Mate desktop environment
+      run: vncserver -select-de mate
+
+    - name: Add new user with read/write permissions
+      run: vncpasswd -u my_username -w -r
+
+    - name: Tail VNC logs
+      run: tail -f ~/.vnc/*.log
+
+    - name: List current VNC sessions
+      run: vncserver -list
+
+    - name: Kill VNC session with display ID :2
+      run: vncserver -kill :2
+
     - name: Show IP address
       run: |
         ip addr show
