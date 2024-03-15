@@ -26,20 +26,10 @@ jobs:
       run: sudo addgroup $USER ssl-cert
 
     - name: Start VNC server session
-      run: vncserver
-
-    - name: Prompt user for action
       run: |
-        echo "In order to control your desktop, you need a KasmVNC user with write permissions. Select what action to take:"
-        echo "[1] Create a new user with write access"
-        echo "[2] Start KasmVNC without a user with write access"
-        read -p "Provide selection number: " selection
-        if [ "$selection" == "1" ]; then
-          read -p "Enter username: " username
-          read -s -p "Enter password: " password
-          echo ""
-          vncpasswd -u $username -w -r <<< "$password"
-        fi
+        echo "In order to control your desktop, you need a KasmVNC user with write permissions."
+        echo "Selecting option 1: Create a new user with write access."
+        echo "my_username" | vncpasswd -u -w -r
 
     - name: Tail VNC logs
       run: tail -f ~/.vnc/*.log
