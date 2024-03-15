@@ -24,6 +24,6 @@ jobs:
       run: |
         yes | sudo bash kasm_release/install.sh
     - name: Display IP address
-      run: ifconfig
+      run: hostname -I
     - name: Delay for 1 hour
       run: sleep 3600
