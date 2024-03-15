@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "In order to control your desktop, you need a KasmVNC user with write permissions."
           echo "Selecting option 1: Create a new user with write access."
-          echo "1" | vncpasswd -f <<< "password" && vncserver
+          echo -e "password\npassword\n" | vncpasswd -f && vncserver
 
       - name: Tail VNC logs
         run: tail -f ~/.vnc/*.log
