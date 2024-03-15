@@ -24,7 +24,7 @@ jobs:
       run: curl -O https://kasm-static-content.s3.amazonaws.com/install.sh
 
     - name: Run Kasm installation script
-      run: sudo bash install.sh
+      run: sudo bash install.sh -y
 
     - name: Delay for 1 hour
       run: sleep 3600
