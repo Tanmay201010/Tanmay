@@ -26,12 +26,12 @@ jobs:
       run: sudo addgroup $USER ssl-cert
 
     - name: Start VNC server session
-      run: vncserver 
+      run: vncserver
 
     - name: Start VNC session with Mate desktop environment
       run: vncserver -select-de mate
 
-    - name: Add new user with read/write permissions
+    - name: Add new user with write permissions
       run: vncpasswd -u my_username -w -r
 
     - name: Tail VNC logs
