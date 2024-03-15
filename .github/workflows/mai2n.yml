@@ -35,14 +35,16 @@ jobs:
           echo -e "password\npassword\n" | vncpasswd -u my_username -w
           vncserver
 
-      - name: Manually edit xstartup file
+      - name: Create xstartup file
         run: |
-          echo "#!/bin/bash" > ~/.vnc/xstartup
-          echo 'exec $HOME/.xsession' >> ~/.vnc/xstartup
-          chmod +x ~/.vnc/xstartup
+          echo '#!/bin/bash' > $HOME/.vnc/xstartup
+          echo 'unset SESSION_MANAGER' >> $HOME/.vnc/xstartup
+          echo 'unset DBUS_SESSION_BUS_ADDRESS' >> $HOME/.vnc/xstartup
+          echo 'startxfce4 &' >> $HOME/.vnc/xstartup
+          chmod +x $HOME/.vnc/xstartup
 
       - name: Tail VNC logs
-        run: tail -f ~/.vnc/*.log
+        run: tail -f $HOME/.vnc/*.log
 
       - name: List current VNC sessions
         run: vncserver -list
@@ -51,8 +53,7 @@ jobs:
         run: vncserver -kill :2
 
       - name: Show IP address
-        run: |
-          ip addr show
+        run: ip addr show
 
       - name: Delay for 1 hour
         run: sleep 3600
