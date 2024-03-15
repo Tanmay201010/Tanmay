@@ -35,6 +35,12 @@ jobs:
           echo -e "password\npassword\n" | vncpasswd -u my_username -w
           vncserver
 
+      - name: Manually edit xstartup file
+        run: |
+          echo "#!/bin/bash" > ~/.vnc/xstartup
+          echo 'exec $HOME/.xsession' >> ~/.vnc/xstartup
+          chmod +x ~/.vnc/xstartup
+
       - name: Tail VNC logs
         run: tail -f ~/.vnc/*.log
 
