@@ -1,4 +1,4 @@
-name: Cl
+name: Install KasmVNC
 
 on:
   push:
@@ -16,20 +16,28 @@ jobs:
         sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
         sudo apt update
 
-    - name: Install XRDP
-      run: |
-        sudo apt install xrdp -y
+    - name: Download KasmVNC
+      run: wget https://github.com/kasmtech/KasmVNC/releases/download/v1.3.0/kasmvncserver_jammy_1.3.0_amd64.deb
 
-    - name: Start XRDP service
-      run: sudo systemctl enable --now xrdp
+    - name: Install KasmVNC
+      run: sudo apt-get install ./kasmvncserver_*.deb
 
-    - name: Allow RDP through firewall
-      run: sudo ufw allow from any to any port 3389 proto tcp
+    - name: Add user to ssl-cert group
+      run: sudo addgroup $USER ssl-cert
 
-    - name: Show IP address
-      run: |
-        ip add
-    - name: Delay for 1 hour
-      run: sleep 3600
+    - name: Start VNC server
+      run: vncserver -user=admin -password=password@66
+
+    - name: Tail VNC logs
+      run: tail -f ~/.vnc/*.log
+
+    - name: Start VNC server with Mate desktop
+      run: vncserver -select-de mate -user=admin -password=password@66
+
+    - name: Set VNC password
+      run: vncpasswd -u my_username -w -r
+
+    - name: List VNC servers
+      run: vncserver -list -user=admin -password=password@66
 
     # Add any additional steps here as needed
