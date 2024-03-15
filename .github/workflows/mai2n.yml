@@ -27,7 +27,7 @@ jobs:
       run: tightvncserver :1 -geometry 1280x720 -depth 24
 
     - name: Add user to KasmVNC group
-      run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66
+      run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66102010
 
     - name: Change port to 8080
       run: sudo sed -i 's/3389/8080/g' /etc/xrdp/xrdp.ini
