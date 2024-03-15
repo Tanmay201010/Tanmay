@@ -1,4 +1,4 @@
-name: VNC Setup
+name: Cl
 
 on:
   push:
@@ -11,31 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Update package lists
+    - name: Update sources.list
       run: |
+        sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
         sudo apt update
 
-    - name: Install XFCE4 and TightVNCServer
-      run: |
-        sudo apt install xfce4 xfce4-goodies tightvncserver -y
+    - name: Download KasmVNC Server
+      run: wget https://github.com/kasmtech/KasmVNC/releases/download/v1.3.0/kasmvncserver_jammy_1.3.0_amd64.deb
 
-    - name: Configure VNC Server
-      run: |
-        vncserver -geometry 1920x1080 -depth 24 -localhost :1
-        echo "password" | vncpasswd -f > ~/.vnc/passwd
-        vncserver -kill :1
+    - name: Install KasmVNC Server
+      run: sudo apt-get install ./kasmvncserver_*.deb
 
-    - name: Backup and Configure xstartup for XFCE4
-      run: |
-        mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
-        echo '#!/bin/bash' >> ~/.vnc/xstartup
-        echo 'xrdb $HOME/.Xresources' >> ~/.vnc/xstartup
-        echo 'startxfce4 &' >> ~/.vnc/xstartup
-        chmod +x ~/.vnc/xstartup
+    - name: Add user to ssl-cert group
+      run: sudo addgroup $USER ssl-cert
 
-    - name: Start VNC Server
+    - name: Show IP address
       run: |
-        vncserver -localhost
+        ip addr show
 
-    - name: SSH Tunnel to VNC Server
-      run: ssh -L 59000:localhost:5901 -C -N -l sammy your_server_ip
+    - name: Delay for 1 hour
+      run: sleep 3600
