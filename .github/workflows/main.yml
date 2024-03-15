@@ -1,7 +1,9 @@
-name: Cl
+name: Kasm Install
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -9,31 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Download ngrok
-      run: wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-amd64.zip -O ngrok.zip
+    - name: Change directory to /tmp
+      run: cd /tmp
 
-    - name: Extract ngrok
-      run: unzip ngrok.zip
+    - name: Download Kasm installation script
+      run: curl -O https://kasm-static-content.s3.amazonaws.com/install.sh
 
-    - name: Find ngrok binary
-      run: |
-        NGROK_BINARY=$(find . -name "ngrok" -type f)
-        echo "Found ngrok binary at: $NGROK_BINARY"
-        chmod +x $NGROK_BINARY
-        echo "NGROK_BINARY=$NGROK_BINARY" >> $GITHUB_ENV
+    - name: Run Kasm installation script
+      run: sudo bash install.sh
 
-    - name: Auth
-      run: |
-        $NGROK_BINARY authtoken $NGROK_AUTH_TOKEN
-      env:
-        NGROK_BINARY: ${{ env.NGROK_BINARY }}
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-
-    - name: Enable TS
-      run: sudo sed -i 's/.*#Port 22/Port 22/' /etc/ssh/sshd_config && sudo service ssh restart
-
-    - name: Enable Remote Desktop Rule
-      run: sudo ufw allow 3389/tcp
-
-    - name: Create Tunnel
-      run: $NGROK_BINARY tcp 3389
+    - name: Delay for 1 hour
+      run: sleep 3600
