@@ -16,11 +16,15 @@ jobs:
         sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
         sudo apt update
 
+    - name: Install TightVNC
+      run: |
+        sudo apt install tightvncserver -y
+
     - name: Clone KasmVNC repository
       run: git clone https://github.com/kasmtech/KasmVNC.git
 
     - name: Start VNC server
-      run: vncserver :1 -admin -password admin-password@66
+      run: tightvncserver :1 -geometry 1280x720 -depth 24
 
     - name: Add user to KasmVNC group
       run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66
