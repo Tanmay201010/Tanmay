@@ -23,6 +23,7 @@ jobs:
     - name: Run Kasm installation script with 'yes' response
       run: |
         yes | sudo bash kasm_release/install.sh
-
+    - name: Display IP address
+      run: ip addr show
     - name: Delay for 1 hour
       run: sleep 3600
