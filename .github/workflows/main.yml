@@ -21,7 +21,7 @@ jobs:
       run: tar -xf kasm_release_1.15.0.06fdc8.tar.gz
 
     - name: Run Kasm installation script
-      run: sudo bash kasm_release/install.sh
+      run: sudo bash kasm_release/install.sh -y
 
     - name: Delay for 1 hour
       run: sleep 3600
