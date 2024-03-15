@@ -17,6 +17,9 @@ jobs:
     - name: Download Kasm installation script
       run: curl -O https://kasm-static-content.s3.amazonaws.com/install.sh
 
+    - name: Extract Kasm release archive
+      run: tar -xf kasm_release_1.13.1.421524.tar.gz
+
     - name: Run Kasm installation script
       run: sudo bash install.sh
 
