@@ -25,13 +25,14 @@ jobs:
       - name: Add user to ssl-cert group
         run: sudo addgroup $USER ssl-cert
 
+      - name: Create .Xauthority file
+        run: touch $HOME/.Xauthority
+
       - name: Start VNC server session and select option 1
         run: |
           echo "In order to control your desktop, you need a KasmVNC user with write permissions."
           echo "Selecting option 1: Create a new user with write access."
           echo -e "password\npassword\n" | vncpasswd -u my_username -w
-
-          # Start VNC server after setting up the user
           vncserver
 
       - name: Tail VNC logs
