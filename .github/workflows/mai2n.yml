@@ -20,11 +20,17 @@ jobs:
       run: |
         sudo apt install tightvncserver -y
 
+    - name: Ensure ~/.vnc directory exists
+      run: mkdir -p ~/.vnc
+
+    - name: Set VNC password
+      run: echo 'your_strong_password' | vncpasswd -f > ~/.vnc/passwd && chmod 600 ~/.vnc/passwd
+
     - name: Clone KasmVNC repository
       run: git clone https://github.com/kasmtech/KasmVNC.git
 
     - name: Start VNC server
-      run: echo "your-long-password" | vncpasswd -f > ~/.vnc/passwd && chmod 600 ~/.vnc/passwd && tightvncserver :1 -geometry 1280x720 -depth 24 -localhost no -nolisten tcp -SecurityTypes None
+      run: tightvncserver :1 -geometry 1280x720 -depth 24 -localhost no -nolisten tcp -SecurityTypes None
 
     - name: Add user to KasmVNC group
       run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66
