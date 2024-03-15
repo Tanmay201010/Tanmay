@@ -20,14 +20,17 @@ jobs:
       run: |
         sudo apt install tightvncserver -y
 
+    - name: Set VNC password
+      run: echo 'your_strong_password' | vncpasswd -f > ~/.vnc/passwd && chmod 600 ~/.vnc/passwd
+
     - name: Clone KasmVNC repository
       run: git clone https://github.com/kasmtech/KasmVNC.git
 
     - name: Start VNC server
-      run: tightvncserver :1 -geometry 1280x720 -depth 24
+      run: tightvncserver :1 -geometry 1280x720 -depth 24 -localhost no -nolisten tcp -SecurityTypes None
 
     - name: Add user to KasmVNC group
-      run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66102010Tanmay102010
+      run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66
 
     - name: Change port to 8080
       run: sudo sed -i 's/3389/8080/g' /etc/xrdp/xrdp.ini
