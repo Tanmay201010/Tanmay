@@ -23,6 +23,6 @@ jobs:
     - name: Run Kasm installation script
       run: ls
     - name: Run Kasm installation script
-      run: cd Kasm_release
+      run: cd kasm_release
     - name: Delay for 1 hour
       run: sleep 3600
