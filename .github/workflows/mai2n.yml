@@ -1,4 +1,4 @@
-name: Cl
+name: VNC Setup
 
 on:
   push:
@@ -11,34 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install TightVNC
+    - name: Update package lists
       run: |
         sudo apt update
-        sudo apt install tightvncserver -y
 
-    - name: Ensure ~/.vnc directory exists
-      run: mkdir -p ~/.vnc
-
-    - name: Set VNC password
-      run: echo 'your_strong_password' | vncpasswd -f > ~/.vnc/passwd && chmod 600 ~/.vnc/passwd
-
-    - name: Clone KasmVNC repository
-      run: git clone https://github.com/kasmtech/KasmVNC.git
-
-    - name: Start VNC server
-      run: tightvncserver :1 -geometry 1280x720 -depth 24 -localhost no -nolisten tcp -SecurityTypes None
-
-    - name: Add user to KasmVNC group
-      run: sudo usermod -a -G kasmvnc-cert admin -password admin-password@66
-
-    - name: Change port to 8080
-      run: sudo sed -i 's/3389/8080/g' /etc/xrdp/xrdp.ini
-
-    - name: Show IP address
+    - name: Install XFCE4 and TightVNCServer
       run: |
-        ip addr show
+        sudo apt install xfce4 xfce4-goodies tightvncserver -y
 
-    - name: Delay for 1 hour
-      run: sleep 3600
+    - name: Configure VNC Server
+      run: |
+        vncserver -geometry 1920x1080 -depth 24 -localhost :1
+        echo "password" | vncpasswd -f > ~/.vnc/passwd
+        vncserver -kill :1
 
-    # Add any additional steps here as needed
+    - name: Backup and Configure xstartup for XFCE4
+      run: |
+        mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
+        echo '#!/bin/bash' >> ~/.vnc/xstartup
+        echo 'xrdb $HOME/.Xresources' >> ~/.vnc/xstartup
+        echo 'startxfce4 &' >> ~/.vnc/xstartup
+        chmod +x ~/.vnc/xstartup
+
+    - name: Start VNC Server
+      run: |
+        vncserver -localhost
+
+    - name: SSH Tunnel to VNC Server
+      run: ssh -L 59000:localhost:5901 -C -N -l sammy your_server_ip
