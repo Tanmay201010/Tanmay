@@ -38,9 +38,10 @@ jobs:
       - name: Create xstartup file
         run: |
           echo '#!/bin/bash' > $HOME/.vnc/xstartup
+          echo 'export XKL_XMODMAP_DISABLE=1' >> $HOME/.vnc/xstartup
           echo 'unset SESSION_MANAGER' >> $HOME/.vnc/xstartup
           echo 'unset DBUS_SESSION_BUS_ADDRESS' >> $HOME/.vnc/xstartup
-          echo 'startxfce4 &' >> $HOME/.vnc/xstartup
+          echo 'gnome-session &' >> $HOME/.vnc/xstartup
           chmod +x $HOME/.vnc/xstartup
 
       - name: Tail VNC logs
