@@ -1,4 +1,4 @@
-name: Cl
+name: Kasm Install
 
 on:
   push:
@@ -11,50 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update sources.list
-        run: |
-          sudo sed -i 's#http://azure.archive.ubuntu.com/ubuntu/#https://archive.kali.org/#g' /etc/apt/sources.list
-          sudo apt update
+    - name: Change directory to /tmp
+      run: cd /tmp
 
-      - name: Download KasmVNC Server
-        run: wget https://github.com/kasmtech/KasmVNC/releases/download/v1.3.0/kasmvncserver_jammy_1.3.0_amd64.deb
+    - name: Download Kasm release archive
+      run: curl -O https://kasm-static-content.s3.amazonaws.com/kasm_release_1.15.0.06fdc8.tar.gz
 
-      - name: Install KasmVNC Server
-        run: sudo apt-get install ./kasmvncserver_*.deb
+    - name: Extract Kasm release archive
+      run: tar -xf kasm_release_1.15.0.06fdc8.tar.gz
 
-      - name: Add user to ssl-cert group
-        run: sudo addgroup $USER ssl-cert
+    - name: Run Kasm installation script with 'yes' response
+      run: |
+        yes | sudo bash kasm_release/install.sh
 
-      - name: Create .Xauthority file
-        run: touch $HOME/.Xauthority
+    - name: Manually edit xstartup
+      run: |
+        # Instructions to manually edit the xstartup file
+        # You may need to open the file in a text editor and make the necessary changes
 
-      - name: Start VNC server session and select option 1
-        run: |
-          echo "In order to control your desktop, you need a KasmVNC user with write permissions."
-          echo "Selecting option 1: Create a new user with write access."
-          echo -e "password\npassword\n" | vncpasswd -u my_username -w
-          vncserver
+    - name: Troubleshoot select-de.sh
+      run: |
+        # Investigate why select-de.sh is failing to execute
+        # Check for any errors in the script or missing dependencies
 
-      - name: Create xstartup file
-        run: |
-          echo '#!/bin/bash' > $HOME/.vnc/xstartup
-          echo 'export XKL_XMODMAP_DISABLE=1' >> $HOME/.vnc/xstartup
-          echo 'unset SESSION_MANAGER' >> $HOME/.vnc/xstartup
-          echo 'unset DBUS_SESSION_BUS_ADDRESS' >> $HOME/.vnc/xstartup
-          echo 'gnome-session &' >> $HOME/.vnc/xstartup
-          chmod +x $HOME/.vnc/xstartup
+    - name: Display IP address
+      run: ip addr show
 
-      - name: Tail VNC logs
-        run: tail -f $HOME/.vnc/*.log
-
-      - name: List current VNC sessions
-        run: vncserver -list
-
-      - name: Kill VNC session with display ID :2
-        run: vncserver -kill :2
-
-      - name: Show IP address
-        run: ip addr show
-
-      - name: Delay for 1 hour
-        run: sleep 3600
+    - name: Delay for 1 hour
+      run: sleep 3600
