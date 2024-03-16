@@ -52,7 +52,7 @@ jobs:
 
     # Start Ngrok tunnel
     - name: Start Ngrok tunnel
-      run: ngrok http 443
+      run: ./ngrok http 443
 
     # Display IP address
     - name: Display IP address
