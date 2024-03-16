@@ -1,4 +1,4 @@
-name: Kasm Install
+name: Kasm Install with Ngrok
 
 on:
   push:
@@ -11,31 +11,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Download and install Ngrok
+    - name: Download and install Ngrok
+      run: |
+        curl -O https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
+        sudo tar xvzf ngrok-v3-stable-linux-arm64.tgz -C /usr/local/bin
+
+    # Change directory to /tmp
     - name: Change directory to /tmp
       run: cd /tmp
 
+    # Download Kasm release archive
     - name: Download Kasm release archive
       run: curl -O https://kasm-static-content.s3.amazonaws.com/kasm_release_1.15.0.06fdc8.tar.gz
 
+    # Extract Kasm release archive
     - name: Extract Kasm release archive
       run: tar -xf kasm_release_1.15.0.06fdc8.tar.gz
 
+    # Run Kasm installation script with 'yes' response
     - name: Run Kasm installation script with 'yes' response
       run: |
         yes | sudo bash kasm_release/install.sh
 
+    # Manually edit xstartup
     - name: Manually edit xstartup
       run: |
         # Instructions to manually edit the xstartup file
         # You may need to open the file in a text editor and make the necessary changes
 
+    # Troubleshoot select-de.sh
     - name: Troubleshoot select-de.sh
       run: |
         # Investigate why select-de.sh is failing to execute
         # Check for any errors in the script or missing dependencies
 
+    # Connect Ngrok with Authentication Token
+    - name: Connect Ngrok with Authentication Token
+      run: ngrok config add-authtoken <2cqSQHjLtHKQvX6qxnhQWFJZePn_3LLAK4Xq7odt6Ss4AGoN7>
+
+    # Start Ngrok tunnel
+    - name: Start Ngrok tunnel
+      run: ngrok http 443
+
+    # Display IP address
     - name: Display IP address
       run: ip addr show
 
+    # Delay for 1 hour
     - name: Delay for 1 hour
       run: sleep 3600
