@@ -38,6 +38,18 @@ jobs:
         echo -e "1\n1\n443" >> vortex_input.txt
         vortex --save < vortex_input.txt
 
+    # Manually edit xstartup
+    - name: Manually edit xstartup
+      run: |
+        # Instructions to manually edit the xstartup file
+        # You may need to open the file in a text editor and make the necessary changes
+
+    # Troubleshoot select-de.sh
+    - name: Troubleshoot select-de.sh
+      run: |
+        # Investigate why select-de.sh is failing to execute
+        # Check for any errors in the script or missing dependencies
+
     # Download Kasm release archive
     - name: Download Kasm release archive
       run: |
