@@ -20,11 +20,11 @@ jobs:
       run: |
         curl -O https://www.vtxhub.com/download/1.1.7/linux/vortex.zip
         sudo apt-get install unzip -y
-        sudo unzip vortex.zip -d /tmp/vortex
+        sudo unzip vortex.zip -d $HOME/vortex
 
     # Make Vortex binary executable
     - name: Make Vortex binary executable
-      run: chmod +x /tmp/vortex/vortex
+      run: chmod +x $HOME/vortex/vortex
 
     # Check current directory and list contents
     - name: Check current directory and list contents
@@ -68,7 +68,7 @@ jobs:
 
     # Start Vortex tunnel at port 443
     - name: Start Vortex tunnel at port 443
-      run: /tmp/vortex/vortex http 443 &
+      run: $HOME/vortex/vortex http 443 &
 
     # Display IP address
     - name: Display IP address
