@@ -1,4 +1,4 @@
-name: Kasm Install with Ngrok
+name: Kasm Install with Vortex
 
 on:
   push:
@@ -15,11 +15,12 @@ jobs:
     - name: Change directory to /tmp
       run: cd /tmp
 
-    # Download and install Ngrok for x86_64 architecture
-    - name: Download and install Ngrok
+    # Download and install Vortex
+    - name: Download and install Vortex
       run: |
-        curl -O https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
-        sudo tar xvzf ngrok-v3-stable-linux-amd64.tgz -C /tmp
+        curl -O https://www.vtxhub.com/download/1.1.7/linux/vortex.zip
+        sudo apt-get install unzip -y
+        sudo unzip vortex.zip -d /tmp/vortex
 
     # Check current directory and list contents
     - name: Check current directory and list contents
@@ -56,13 +57,15 @@ jobs:
         # Investigate why select-de.sh is failing to execute
         # Check for any errors in the script or missing dependencies
 
-    # Connect Ngrok with Authentication Token
-    - name: Connect Ngrok with Authentication Token
-      run: /tmp/ngrok authtoken 2cqSQHjLtHKQvX6qxnhQWFJZePn_3LLAK4Xq7odt6Ss4AGoN7
+    # Run Vortex with provided inputs
+    - name: Run Vortex with provided inputs
+      run: |
+        cd /tmp/vortex
+        echo -e "peyisa6677@hisotyr.com\npeyisa6677@hisotyr.com\n1234\n1\n1\n433" | ./vortex --save
 
-    # Start Ngrok tunnel
-    - name: Start Ngrok tunnel
-      run: /tmp/ngrok http 80
+    # Start Vortex tunnel
+    - name: Start Vortex tunnel
+      run: /tmp/vortex/vortex http 80
 
     # Display IP address
     - name: Display IP address
