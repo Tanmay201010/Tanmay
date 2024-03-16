@@ -11,28 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Download and install Ngrok for x86_64 architecture
-    - name: Download and install Ngrok
-      run: |
-        curl -O https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
-        sudo tar xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin
-
     # Change directory to /tmp
     - name: Change directory to /tmp
       run: cd /tmp
 
+    # Download and install Ngrok for x86_64 architecture
+    - name: Download and install Ngrok
+      run: |
+        curl -O https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+        sudo tar xvzf ngrok-v3-stable-linux-amd64.tgz -C /tmp
+
+    # Check current directory and list contents
+    - name: Check current directory and list contents
+      run: |
+        pwd
+        ls -l
+
     # Download Kasm release archive
     - name: Download Kasm release archive
-      run: curl -O https://kasm-static-content.s3.amazonaws.com/kasm_release_1.15.0.06fdc8.tar.gz
+      run: |
+        cd /tmp
+        curl -O https://kasm-static-content.s3.amazonaws.com/kasm_release_1.15.0.06fdc8.tar.gz
 
     # Extract Kasm release archive
     - name: Extract Kasm release archive
-      run: tar -xf kasm_release_1.15.0.06fdc8.tar.gz
+      run: |
+        cd /tmp
+        tar -xf kasm_release_1.15.0.06fdc8.tar.gz
 
     # Run Kasm installation script with 'yes' response
     - name: Run Kasm installation script with 'yes' response
       run: |
-        yes | sudo bash kasm_release/install.sh
+        yes | sudo bash /tmp/kasm_release/install.sh
 
     # Manually edit xstartup
     - name: Manually edit xstartup
@@ -48,11 +58,11 @@ jobs:
 
     # Connect Ngrok with Authentication Token
     - name: Connect Ngrok with Authentication Token
-      run: ngrok authtoken 2cqSQHjLtHKQvX6qxnhQWFJZePn_3LLAK4Xq7odt6Ss4AGoN7
+      run: /tmp/ngrok authtoken 2cqSQHjLtHKQvX6qxnhQWFJZePn_3LLAK4Xq7odt6Ss4AGoN7
 
     # Start Ngrok tunnel
     - name: Start Ngrok tunnel
-      run: ./ngrok http 443
+      run: /tmp/ngrok http 443
 
     # Display IP address
     - name: Display IP address
