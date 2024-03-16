@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Download and install Ngrok
+    # Download and install Ngrok for x86_64 architecture
     - name: Download and install Ngrok
       run: |
-        curl -O https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
-        sudo tar xvzf ngrok-v3-stable-linux-arm64.tgz -C /usr/local/bin
+        curl -O https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+        sudo tar xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin
 
     # Change directory to /tmp
     - name: Change directory to /tmp
