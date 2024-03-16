@@ -22,6 +22,10 @@ jobs:
         sudo apt-get install unzip -y
         sudo unzip vortex.zip -d /tmp/vortex
 
+    # Make Vortex binary executable
+    - name: Make Vortex binary executable
+      run: chmod +x /tmp/vortex/vortex
+
     # Check current directory and list contents
     - name: Check current directory and list contents
       run: |
@@ -32,11 +36,6 @@ jobs:
     - name: Run Vortex with save option
       run: |
         echo -e "User" >> vortex_input.txt
-        echo -e "email = peyisa6677@hisotyr.com" >> vortex_input.txt
-        echo -e "password = peyisa6677@hisotyr.com" >> vortex_input.txt
-        echo -e "pin=1234" >> vortex_input.txt
-        echo -e "1\n1\n443" >> vortex_input.txt
-        vortex --save < vortex_input.txt
 
     # Manually edit xstartup
     - name: Manually edit xstartup
