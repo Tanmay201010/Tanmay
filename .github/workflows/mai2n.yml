@@ -48,7 +48,7 @@ jobs:
 
     # Connect Ngrok with Authentication Token
     - name: Connect Ngrok with Authentication Token
-      run: ngrok config add-authtoken <2cqSQHjLtHKQvX6qxnhQWFJZePn_3LLAK4Xq7odt6Ss4AGoN7>
+      run: ngrok authtoken 2cqSQHjLtHKQvX6qxnhQWFJZePn_3LLAK4Xq7odt6Ss4AGoN7
 
     # Start Ngrok tunnel
     - name: Start Ngrok tunnel
