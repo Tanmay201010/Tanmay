@@ -28,6 +28,43 @@ jobs:
         pwd
         ls -l
 
+    # Run Vortex with save option
+    - name: Run Vortex with save option
+      run: /tmp/vortex/vortex --save
+
+    # Create a script to automatically input details to Vortex
+    - name: Create input script
+      run: |
+        cat << 'EOF' > input.sh
+        #!/usr/bin/expect -f
+        set timeout -1
+        spawn /tmp/vortex/vortex
+        match_max 100000
+        expect -exact "email: "
+        send -- "peyisa6677@hisotyr.com\r"
+        expect -exact "password: "
+        send -- "peyisa6677@hisotyr.com\r"
+        expect -exact "Pin: "
+        send -- "1234\r"
+        expect -exact "Site Selection: "
+        send -- "1\r"
+        expect -exact "IP and Port Selection: "
+        send -- "1\r"
+        expect -exact "IP: "
+        send -- "\r"
+        expect -exact "Port: "
+        send -- "433\r"
+        expect eof
+        EOF
+
+    # Make the input script executable
+    - name: Make input script executable
+      run: chmod +x input.sh
+
+    # Run the input script to enter details into Vortex
+    - name: Run input script
+      run: ./input.sh
+
     # Download Kasm release archive
     - name: Download Kasm release archive
       run: |
@@ -57,15 +94,9 @@ jobs:
         # Investigate why select-de.sh is failing to execute
         # Check for any errors in the script or missing dependencies
 
-    # Run Vortex with provided inputs
-    - name: Run Vortex with provided inputs
-      run: |
-        cd /tmp/vortex
-        echo -e "peyisa6677@hisotyr.com\npeyisa6677@hisotyr.com\n1234\n1\n1\n433" | ./vortex --save
-
-    # Start Vortex tunnel
-    - name: Start Vortex tunnel
-      run: /tmp/vortex/vortex http 80
+    # Start Vortex tunnel at port 443
+    - name: Start Vortex tunnel at port 443
+      run: /tmp/vortex/vortex http 443 &
 
     # Display IP address
     - name: Display IP address
