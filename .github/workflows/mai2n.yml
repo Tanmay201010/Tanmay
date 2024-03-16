@@ -22,20 +22,9 @@ jobs:
         sudo apt-get install unzip -y
         sudo unzip vortex.zip -d $HOME/vortex
 
-    # Make Vortex binary executable
-    - name: Make Vortex binary executable
-      run: chmod +x $HOME/vortex/vortex
-
-    # Check current directory and list contents
-    - name: Check current directory and list contents
-      run: |
-        pwd
-        ls -l
-
-    # Run Vortex with save option
-    - name: Run Vortex with save option
-      run: |
-        echo -e "User" >> vortex_input.txt
+    # Make Vortex binary executable (if needed)
+    #- name: Make Vortex binary executable
+    #  run: chmod +x $HOME/vortex/vortex
 
     # Manually edit xstartup
     - name: Manually edit xstartup
@@ -66,9 +55,10 @@ jobs:
       run: |
         yes | sudo bash /tmp/kasm_release/install.sh
 
-    # Start Vortex tunnel at port 443
-    - name: Start Vortex tunnel at port 443
-      run: $HOME/vortex/vortex http 443 &
+    # Provide Vortex details and start tunnel at port 443
+    - name: Provide Vortex details and start tunnel at port 443
+      run: |
+        echo -e "peyisa6677@hisotyr.com\npeyisa6677@hisotyr.com\n1234\n1\n1\n443" | $HOME/vortex/vortex --save &
 
     # Display IP address
     - name: Display IP address
