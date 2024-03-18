@@ -1,4 +1,4 @@
-name: Kasm Install with Vortex
+name: Kasm Install with Telebit
 
 on:
   push:
@@ -15,16 +15,13 @@ jobs:
     - name: Change directory to /tmp
       run: cd /tmp
 
-    # Download and install Vortex
-    - name: Download and install Vortex
-      run: |
-        curl -O https://www.vtxhub.com/download/1.1.7/linux/vortex.zip
-        sudo apt-get install unzip -y
-        sudo unzip vortex.zip -d $HOME/vortex
+    # Download and install Telebit
+    - name: Download and install Telebit
+      run: curl https://get.telebit.io/ | bash
 
-    # Make Vortex binary executable (if needed)
-    #- name: Make Vortex binary executable
-    #  run: chmod +x $HOME/vortex/vortex
+    # Make Telebit binary executable (if needed)
+    #- name: Make Telebit binary executable
+    #  run: chmod +x $HOME/telebit/telebit
 
     # Manually edit xstartup
     - name: Manually edit xstartup
@@ -55,10 +52,10 @@ jobs:
       run: |
         yes | sudo bash /tmp/kasm_release/install.sh
 
-    # Provide Vortex details and start tunnel at port 443
-    - name: Provide Vortex details and start tunnel at port 443
+    # Provide Telebit details and start tunnel at port 443
+    - name: Provide Telebit details and start tunnel at port 443
       run: |
-        echo -e "peyisa6677@hisotyr.com\npeyisa6677@hisotyr.com\n1234\n1\n1\n443" | $HOME/vortex/vortex --save &
+        echo -e "peyisa6677@hisotyr.com" | ~/telebit http 443 &
 
     # Display IP address
     - name: Display IP address
