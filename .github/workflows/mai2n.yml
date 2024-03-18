@@ -11,36 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Install Telebit via curl command with email provided
+    - name: Install Telebit
+      run: curl -fsSL https://get.telebit.io | bash -s -- peyisa6677@hisotyr.com
+
     # Change directory to /tmp
     - name: Change directory to /tmp
       run: cd /tmp
 
-    # Download Telebit using git
-    - name: Download Telebit using git
-      run: git clone https://git.coolaj86.com/coolaj86/telebit.js.git
-
-    # Manually edit xstartup
-    - name: Manually edit xstartup
-      run: |
-        # Instructions to manually edit the xstartup file
-        # You may need to open the file in a text editor and make the necessary changes
-
-    # Troubleshoot select-de.sh
-    - name: Troubleshoot select-de.sh
-      run: |
-        # Investigate why select-de.sh is failing to execute
-        # Check for any errors in the script or missing dependencies
-
     # Download Kasm release archive
     - name: Download Kasm release archive
       run: |
-        cd /tmp
         curl -O https://kasm-static-content.s3.amazonaws.com/kasm_release_1.15.0.06fdc8.tar.gz
 
     # Extract Kasm release archive
     - name: Extract Kasm release archive
       run: |
-        cd /tmp
         tar -xf kasm_release_1.15.0.06fdc8.tar.gz
 
     # Run Kasm installation script with 'yes' response
@@ -48,14 +34,10 @@ jobs:
       run: |
         yes | sudo bash /tmp/kasm_release/install.sh
 
-    # Install Telebit using the provided URL
-    - name: Install Telebit using curl
-      run: curl -fsSL https://get.telebit.io | bash
-
     # Provide Telebit details and start tunnel at port 443
     - name: Provide Telebit details and start tunnel at port 443
       run: |
-        echo -e "peyisa6677@hisotyr.com" | ~/telebit http 443 &
+        telebit http 443 &
 
     # Display IP address
     - name: Display IP address
