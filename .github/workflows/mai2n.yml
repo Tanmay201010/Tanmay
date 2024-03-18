@@ -13,7 +13,7 @@ jobs:
     steps:
     # Install Telebit via curl command with email provided
     - name: Install Telebit
-      run: curl -fsSL https://get.telebit.io | bash -s -- peyisa6677@hisotyr.com
+      run: curl https://get.telebit.io/ | bash -s -- peyisa6677@hisotyr.com
 
     # Change directory to /tmp
     - name: Change directory to /tmp
