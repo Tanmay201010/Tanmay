@@ -27,7 +27,7 @@ jobs:
 
     # Verify directory content
     - name: Verify directory content
-      run: ls -l /tmp/zrok/
+      run: ls -l /tmp
 
     # Run Zrok invite command
     - name: Run Zrok invite command
