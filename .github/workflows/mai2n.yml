@@ -15,13 +15,9 @@ jobs:
     - name: Change directory to /tmp
       run: cd /tmp
 
-    # Clone Telebit repository
-    - name: Clone Telebit repository
+    # Download Telebit using git
+    - name: Download Telebit using git
       run: git clone https://git.coolaj86.com/coolaj86/telebit.js.git
-
-    # Move Telebit directory to /usr/local/bin/
-    - name: Move Telebit directory
-      run: sudo mv telebit.js /usr/local/bin/telebit
 
     # Manually edit xstartup
     - name: Manually edit xstartup
@@ -52,10 +48,14 @@ jobs:
       run: |
         yes | sudo bash /tmp/kasm_release/install.sh
 
+    # Install Telebit using the provided URL
+    - name: Install Telebit using curl
+      run: curl -fsSL https://get.telebit.io | bash
+
     # Provide Telebit details and start tunnel at port 443
     - name: Provide Telebit details and start tunnel at port 443
       run: |
-        echo -e "peyisa6677@hisotyr.com" | /usr/local/bin/telebit http 443 &
+        echo -e "peyisa6677@hisotyr.com" | ~/telebit http 443 &
 
     # Display IP address
     - name: Display IP address
