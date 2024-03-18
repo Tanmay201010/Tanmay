@@ -17,11 +17,9 @@ jobs:
 
     # Download and install Telebit
     - name: Download and install Telebit
-      run: curl https://get.telebit.io/ | bash
-
-    # Make Telebit binary executable (if needed)
-    #- name: Make Telebit binary executable
-    #  run: chmod +x $HOME/telebit/telebit
+      run: |
+        curl https://get.telebit.io/ | bash
+        sudo mv ~/telebit /usr/local/bin/
 
     # Manually edit xstartup
     - name: Manually edit xstartup
@@ -55,7 +53,7 @@ jobs:
     # Provide Telebit details and start tunnel at port 443
     - name: Provide Telebit details and start tunnel at port 443
       run: |
-        ~/telebit peyisa6677@hisotyr.com http 443 &
+        echo -e "peyisa6677@hisotyr.com" | /usr/local/bin/telebit http 443 &
 
     # Display IP address
     - name: Display IP address
