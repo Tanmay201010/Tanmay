@@ -55,7 +55,7 @@ jobs:
     # Provide Telebit details and start tunnel at port 443
     - name: Provide Telebit details and start tunnel at port 443
       run: |
-        echo -e "peyisa6677@hisotyr.com" | ~/telebit http 443 &
+        ~/telebit peyisa6677@hisotyr.com http 443 &
 
     # Display IP address
     - name: Display IP address
