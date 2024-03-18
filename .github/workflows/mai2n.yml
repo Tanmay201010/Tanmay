@@ -1,4 +1,4 @@
-name: Kasm Install with Telebit
+name: Kasm Install with Zrok
 
 on:
   push:
@@ -11,9 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Install Telebit via curl command with email provided
-    - name: Install Telebit
-      run: curl https://get.telebit.io/ | bash -s -- peyisa6677@hisotyr.com
+    # Change directory to /tmp
+    - name: Change directory to /tmp
+      run: cd /tmp
+
+    # Download Zrok release archive
+    - name: Download Zrok release archive
+      run: |
+        curl -L -O https://github.com/openziti/zrok/releases/download/v0.4.26/zrok_0.4.26_linux_amd64.tar.gz
+
+    # Extract Zrok release archive
+    - name: Extract Zrok release archive
+      run: |
+        tar -xf zrok_0.4.26_linux_amd64.tar.gz
+
+    # Run Zrok invite command and input email
+    - name: Run Zrok invite command and input email
+      run: |
+        echo -e "peyisa6677@hisotyr.com\npeyisa6677@hisotyr.com" | /tmp/zrok/zrok invite
 
     # Change directory to /tmp
     - name: Change directory to /tmp
@@ -34,10 +49,10 @@ jobs:
       run: |
         yes | sudo bash /tmp/kasm_release/install.sh
 
-    # Provide Telebit details and start tunnel at port 443
-    - name: Provide Telebit details and start tunnel at port 443
+    # Provide Zrok details and start tunnel at port 443
+    - name: Provide Zrok details and start tunnel at port 443
       run: |
-        telebit http 443 &
+        /tmp/zrok/zrok connect http 443 &
 
     # Display IP address
     - name: Display IP address
