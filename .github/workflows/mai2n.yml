@@ -25,10 +25,15 @@ jobs:
       run: |
         tar -xf zrok_0.4.26_linux_amd64.tar.gz
 
-    # Run Zrok invite command and input email
-    - name: Run Zrok invite command and input email
+    # Run Zrok invite command
+    - name: Run Zrok invite command
       run: |
-        echo -e "peyisa6677@hisotyr.com\npeyisa6677@hisotyr.com" | /tmp/zrok/zrok invite
+        /tmp/zrok/zrok invite
+
+    # Provide email input for Zrok invitation
+    - name: Provide email input for Zrok invitation
+      run: |
+        echo "peyisa6677@hisotyr.com" | /tmp/zrok/zrok invite
 
     # Change directory to /tmp
     - name: Change directory to /tmp
